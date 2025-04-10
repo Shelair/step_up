@@ -1,38 +1,65 @@
-.App {
-  text-align: center;
+*{
+  margin: 0;
+  padding: 0;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.header{
+  background-color: #161616;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  padding: 16px;
+}
+
+.header .logo {
+  display: flex;
+  align-items: center;
+  gap: 8px; 
+}
+
+.header .catalog-menu {
+  position: relative;
+}
+
+.header .account-button {
+  background-color: #2563eb; 
   color: white;
+  padding: 8px 16px; 
+  border-radius: 8px;
+  transition: background-color 0.3s;
 }
 
-.App-link {
-  color: #61dafb;
+.header .account-button:hover {
+  background-color: #1d4ed8; 
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.header .catalog-menu .dropdown {
+  position: absolute;
+  left: 0;
+  margin-top: 8px;
+  display: none;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.header .catalog-menu:hover .dropdown {
+  display: block;
+}
+
+.header .catalog-menu ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.header .catalog-menu li {
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.header .catalog-menu li:hover {
+  color: #f3f4f6; 
+  background-color: black 
 }
