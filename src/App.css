@@ -3,7 +3,7 @@
   padding: 0;
 }
 
-.header{
+.header {
   background-color: #161616;
   display: flex;
   justify-content: space-between;
@@ -11,55 +11,64 @@
   padding: 16px;
 }
 
-.header .logo {
+.header .menu-left {
   display: flex;
   align-items: center;
-  gap: 8px; 
+  gap: 20px; /* уменьшай/увеличивай по вкусу */
 }
 
-.header .catalog-menu {
+
+.left-section {
+  display: flex;
+  align-items: center;
+  gap: 16px; /* уменьшай/увеличивай по вкусу */
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-img {
+  height: 70px;
+  width: 70px;
+}
+
+.catalog-menu {
   position: relative;
 }
 
-.header .account-button {
-  background-color: #2563eb; 
+.catalog-button {
+  background: none;
   color: white;
-  padding: 8px 16px; 
-  border-radius: 8px;
-  transition: background-color 0.3s;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
 }
 
-.header .account-button:hover {
-  background-color: #1d4ed8; 
-}
-
-.header .catalog-menu .dropdown {
+.dropdown {
   position: absolute;
+  top: 100%;
   left: 0;
-  margin-top: 8px;
-  display: none;
   background-color: white;
-  border: 1px solid #ddd;
+  color: black;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  z-index: 10;
 }
 
-.header .catalog-menu:hover .dropdown {
-  display: block;
-}
-
-.header .catalog-menu ul {
-  list-style-type: none;
+.dropdown ul {
+  list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.header .catalog-menu li {
+.dropdown li {
   padding: 8px 16px;
   cursor: pointer;
 }
 
-.header .catalog-menu li:hover {
-  color: #f3f4f6; 
-  background-color: black 
+.dropdown li:hover {
+  background-color: #f3f4f6;
 }
