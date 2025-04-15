@@ -1,16 +1,19 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // если используешь React Router
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpen2, setIsOpen2] = useState(false);
-  const navigate = useNavigate(); // если навигация нужна
+  const navigate = useNavigate();
 
   const handleLanguageSelect = (lang) => {
-    // Пример навигации или логики
-    console.log("Выбран язык:", lang);
-    navigate(`/courses/${lang.toLowerCase()}`); // пример перехода
-    setIsOpen(false); // закрываем меню
+    navigate(`/courses/${lang.toLowerCase()}`);
+    setIsOpen(false);
+    setIsOpen2(false);
+  };
+
+  const goToAccount = () => {
+    navigate("/account");
   };
 
   return (
@@ -34,7 +37,7 @@ export default function Header() {
           )}
         </div>
 
-    <div className="catalog-menu">
+        <div className="catalog-menu">
           <button onClick={() => setIsOpen2(!isOpen2)} className="catalog-button">
             Мое обучение
           </button>
@@ -47,10 +50,16 @@ export default function Header() {
             </div>
           )}
         </div>
+      </div>
 
-    
-  </div>
-      <button className="account-button">Аккаунт</button>
+      <div className="account-avatar" onClick={goToAccount} style={{ cursor: "pointer" }}>
+        <img
+          src="\stanard_photo.png" 
+          alt="Аккаунт"
+          className="avatar-img"
+          style={{ width: "40px", height: "40px", borderRadius: "50%" }}
+        />
+      </div>
     </div>
   );
 }

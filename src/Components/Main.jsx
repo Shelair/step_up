@@ -1,29 +1,25 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; 
+import React from "react";
+import Kurs_block from "./Kurs_block";
 
 export default function Main() {
-    const navigate = useNavigate(); // если навигация нужна
-    const handleLanguageSelect = (lang) => {
-    console.log("Выбран язык:", lang);
-    navigate(`/courses/${lang.toLowerCase()}`);
-    }; // пример перехода
   return (
-<main>
-        <div>
-          {/* Курс Немецкого */}
-          <div>
-            <h2>Курс немецкого языка</h2>
-            <p>Изучи немецкий от уровня A1 до B2 с опытными преподавателями.</p>
-            <button onClick={() => handleLanguageSelect("Немецкий")}>Перейти к курсу</button>
-          </div>
+    <main className="main-container">
+      <h1 className="main-title">Онлайн курсы</h1>
+      <div className="courses-wrapper">
+        <Kurs_block
+          title="Курс немецкого языка"
+          description="Освойте чтение, письмо, разговорную и письменную речь на разных уровнях. Узнайте больше о культуре немецкоговорящих стран."
+          image="\кельнский собор.jpg"
+          lang="немецкий"
+        />
 
-          {/* Курс Корейского */}
-          <div>
-            <h2>Курс корейского языка</h2>
-            <p>Погрузись в мир корейского языка и культуры с нами!</p>
-            <button onClick={() => handleLanguageSelect("Корейский")}>Перейти к курсу</button>
-          </div>
-        </div>
-      </main>
-);
+        <Kurs_block
+          title="Курс корейского языка"
+          description="Изучите корейский алфавит хангыль, базовую грамматику и развейте навыки устной и письменной речи. Познакомьтесь с основами культуры Кореи."
+          image="\корейский храм.jpg"
+          lang="корейский"
+        />
+      </div>
+    </main>
+  );
 }

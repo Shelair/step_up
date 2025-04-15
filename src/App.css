@@ -3,6 +3,8 @@
   padding: 0;
 }
 
+/* шапка домашней страницы */
+
 .header {
   background-color: #161616;
   display: flex;
@@ -14,14 +16,14 @@
 .header .menu-left {
   display: flex;
   align-items: center;
-  gap: 20px; /* уменьшай/увеличивай по вкусу */
+  gap: 20px; 
 }
 
 
 .left-section {
   display: flex;
   align-items: center;
-  gap: 16px; /* уменьшай/увеличивай по вкусу */
+  gap: 16px; 
 }
 
 .logo {
@@ -71,4 +73,137 @@
 
 .dropdown li:hover {
   background-color: #f3f4f6;
+}
+
+/* основа домашней страницы */
+
+.main-container {
+  padding: 2rem;
+  background-color: #f9f9f9;
+}
+
+.main-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+.courses-wrapper {
+  display: flex;
+  flex-direction: row; 
+  gap: 2rem;
+  justify-content: center;
+  flex-wrap: nowrap; 
+  overflow-x: auto; 
+  padding-bottom: 1rem;
+}
+
+.course-block {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  min-width: 600px;
+  max-width: 600px;
+  height: 180px; 
+  background-color: #9795849f;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+  overflow: hidden; 
+}
+
+.course-text {
+  flex: 1;
+  padding-right: 1rem;
+  overflow: hidden;
+}
+
+.course-text h2 {
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.course-text p {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  max-height: 60px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.course-text button {
+  padding: 0.5rem 1rem;
+  background-color: #83766b;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.course-image img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+/* подвал домашней страницы */
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 2rem;
+  background-color: #161616; 
+  color: #ffffff;
+  flex-wrap: wrap;
+}
+
+.footer a {
+  color: #ffffff;
+  text-decoration: none;
+  margin: 0.3rem 0;
+  display: block;
+  transition: color 0.2s ease;
+}
+
+.footer a:hover {
+  color: #448de6;
+}
+
+.footer-left {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex: 1;
+}
+
+.footer-links-row {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.footer-email {
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+.footer-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.footer-right p {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.95rem;
 }
