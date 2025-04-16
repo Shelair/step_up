@@ -207,3 +207,32 @@
   margin: 0 0 0.5rem 0;
   font-size: 0.95rem;
 }
+
+/* конструктор сайтов*/
+
+/* constructor styles */
+.constructor-container {
+  display: flex;
+  padding: 20px;
+  gap: 20px;
+}
+
+.sidebar {
+  width: 250px;
+  background: #f5f5f5;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.sidebar button {
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.workspace {
+  flex-grow: 1;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
