@@ -52,10 +52,6 @@ export default function Header() {
         </div>
       </div>
 
-      <button className="create-course-button" onClick={() => navigate("/constructor")}>
-          Создать курс
-      </button>
-
       <div className="account-avatar" onClick={goToAccount} style={{ cursor: "pointer" }}>
         <img
           src="\stanard_photo.png" 

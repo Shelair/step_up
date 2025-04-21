@@ -3,19 +3,19 @@ import './App.css';
 import { Routes, Route } from "react-router-dom";
 import GermanPage from './Pages/GermanPage';
 import KoreanPage from './Pages/KoreanPage';
-import About from './Pages/About';
-import Contacts from './Pages/Contacts';
-import Help from './Pages/Help';
-import Privacy from './Pages/Privacy';
-import Terms from './Pages/Terms';
+import About from './Pages/about';
+import Contacts from './Pages/contacts';
+import Help from './Pages/help';
+import Privacy from './Pages/privacy';
+import Terms from './Pages/terms';
 import Account_page from './Pages/Account_page';
-import ConstructorPage from './Pages/ConstructorPage';
-import ConstructorPage from "./Pages/ConstructorPage";
+import AuthPage from './Pages/AuthPage';
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<HomePage />} />
+      <Route path="/" element={<AuthPage />} />
+      <Route path="/home" element={<HomePage />} />
       <Route path="/courses/немецкий" element={<GermanPage />} />
       <Route path="/courses/корейский" element={<KoreanPage />} />
       <Route path="/contacts" element={<Contacts />} />
@@ -24,7 +24,6 @@ function App() {
       <Route path="/terms" element={<Terms />} />
       <Route path="/privacy" element={<Privacy />} />
       <Route path="/account" element={<Account_page/>} />
-      <Route path="/constructor" element={<ConstructorPage />} />
     </Routes>
   );
 }

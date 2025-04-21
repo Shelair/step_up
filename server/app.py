@@ -1,84 +1,73 @@
 from flask import Flask, request, jsonify
-import psycopg2
 from flask_cors import CORS
+import psycopg2
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-CORS(app)  # Включаем CORS для всех маршрутов
+CORS(app)
 
 # Подключение к базе данных PostgreSQL
-def get_db_connection():
-    conn = psycopg2.connect(
-        host="localhost",  # Адрес вашего PostgreSQL сервера
-        database="courses_db",  # Имя вашей базы данных
-        user="postgres",  # Ваш пользователь PostgreSQL
-        password="7002"  # Ваш пароль для PostgreSQL
-    )
-    return conn
+conn = psycopg2.connect(
+    dbname="courses_db",
+    user="postgres",
+    password="7002",
+    host="localhost",
+    port="5432"
+)
+cur = conn.cursor()
 
-# Эндпоинт для получения всех разделов
-@app.route('/api/sections', methods=['GET'])
-def get_sections():
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM sections")
-    sections = cursor.fetchall()
-    cursor.close()
-    conn.close()
-    
-    # Получаем страницы для каждого раздела
-    sections_data = []
-    for section in sections:
-        section_id, title = section
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM pages WHERE section_id = %s", (section_id,))
-        pages = cursor.fetchall()
-        pages_data = [{'id': page[0], 'title': page[2], 'content': page[3]} for page in pages]
-        sections_data.append({'id': section_id, 'title': title, 'pages': pages_data})
-        cursor.close()
-    
-    return jsonify(sections_data)
+@app.route("/register", methods=["POST"])
+def register():
+    data = request.get_json()
+    email = data.get("email")
+    password = data.get("password")
 
-# Эндпоинт для сохранения данных разделов и страниц
-@app.route('/api/saveSections', methods=['POST'])
-def save_sections():
-    data = request.json
-    sections_data = data['sectionsData']
-    
-    conn = get_db_connection()
-    cursor = conn.cursor()
+    # Проверка существования пользователя
+    cur.execute("SELECT * FROM users WHERE email = %s", (email,))
+    if cur.fetchone():
+        return jsonify({"message": "Пользователь уже существует"}), 409
 
-    # Сохраняем разделы
-    for section in sections_data:
-        section_id = section['id']
-        title = section['title']
-        if section_id:
-            cursor.execute("UPDATE sections SET title = %s WHERE id = %s", (title, section_id))
-        else:
-            cursor.execute("INSERT INTO sections (title) VALUES (%s) RETURNING id", (title,))
-            section_id = cursor.fetchone()[0]
-
-        # Сохраняем страницы для раздела
-        for page in section['pages']:
-            page_id = page['id']
-            page_title = page['title']
-            content = page['content']
-            if page_id:
-                cursor.execute("UPDATE pages SET title = %s, content = %s WHERE id = %s", (page_title, content, page_id))
-            else:
-                cursor.execute("INSERT INTO pages (section_id, title, content) VALUES (%s, %s, %s)", 
-                               (section_id, page_title, content))
-
+    # Хеширование пароля
+    hashed_pw = generate_password_hash(password)
+    cur.execute("INSERT INTO users (email, password_hash) VALUES (%s, %s)", (email, hashed_pw))
     conn.commit()
-    cursor.close()
-    conn.close()
-    
-    return jsonify({'message': 'Данные успешно сохранены!'}), 200
+    return jsonify({"message": "Регистрация прошла успешно"})
 
-# Запуск сервера
-if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+@app.route("/login", methods=["POST"])
+def login():
+    data = request.get_json()
+    email = data.get("email")
+    password = data.get("password")
 
-cursor = conn.cursor()
-cursor.execute("SELECT 1")
-result = cursor.fetchone()
-print("Проверка подключения к базе данных:", result)
+    # Проверка пользователя в базе данных
+    cur.execute("SELECT password_hash FROM users WHERE email = %s", (email,))
+    user = cur.fetchone()
+    if user and check_password_hash(user[0], password):
+        return jsonify({"message": "Успешный вход"})
+    return jsonify({"message": "Неверный email или пароль"}), 401
+
+# API для получения данных пользователя
+@app.route('/api/account/<email>', methods=["GET"])
+def get_account_data(email):
+    try:
+        # Запрос к базе данных для получения информации о пользователе
+        cur.execute("""
+            SELECT email, created_at 
+            FROM users 
+            WHERE email = %s
+        """, (email,))
+        
+        user_data = cur.fetchone()
+        
+        if user_data:
+            return jsonify({
+                "email": user_data[0],
+                "created_at": user_data[1]
+            })
+        else:
+            return jsonify({"message": "Данные не найдены для пользователя"}), 404
+    except Exception as e:
+        return jsonify({"message": f"Ошибка при получении данных: {str(e)}"}), 500
+
+if __name__ == "__main__":
+    app.run(debug=True)
