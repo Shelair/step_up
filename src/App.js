@@ -10,6 +10,7 @@ import Privacy from './Pages/privacy';
 import Terms from './Pages/terms';
 import Account_page from './Pages/Account_page';
 import AuthPage from './Pages/AuthPage';
+import ConstructorPage from './Pages/ConstructorPage';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
       <Route path="/terms" element={<Terms />} />
       <Route path="/privacy" element={<Privacy />} />
       <Route path="/account" element={<Account_page/>} />
+      <Route path="/constructor" element={<ConstructorPage />} /> 
     </Routes>
   );
 }
