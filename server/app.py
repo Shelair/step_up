@@ -60,19 +60,19 @@ def login():
 
 @app.route('/api/account', methods=["GET"])
 def get_account_data():
-    email = session.get('user')  # ✅ Получаем email из сессии
-
+    email = session.get('user')
     if not email:
         return jsonify({"message": "Вы не вошли в систему"}), 401
 
     try:
-        cur.execute("SELECT email, created_at FROM users WHERE email = %s", (email,))
+        cur.execute("SELECT email, created_at, role FROM users WHERE email = %s", (email,))
         user_data = cur.fetchone()
 
         if user_data:
             return jsonify({
                 "email": user_data[0],
-                "created_at": user_data[1]
+                "created_at": user_data[1],
+                "role": user_data[2]
             })
         else:
             return jsonify({"message": "Пользователь не найден"}), 404
@@ -82,3 +82,4 @@ def get_account_data():
 
 if __name__ == "__main__":
     app.run(debug=True)
+

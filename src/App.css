@@ -479,7 +479,13 @@
   margin-top: 20px;
 }
 
-.logout {
-  background-color: #f44336; 
+.comeBack-button{
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #d81111;
   color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
 }

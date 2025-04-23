@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+
 const AccountPage = () => {
   const [userData, setUserData] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+  const isAdmin = userData?.role === "admin";
 
   useEffect(() => {
     axios
@@ -22,13 +24,12 @@ const AccountPage = () => {
       });
   }, []);
 
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate("/auth");
-  };
 
   const handleCreateCourse = () => {
     navigate("/constructor");
+  };
+  const handleComeBackHome = () => {
+    navigate("/home");
   };
 
   if (errorMessage) {
@@ -43,11 +44,14 @@ const AccountPage = () => {
           <p><strong>Email:</strong> {userData.email}</p>
           <p><strong>Дата регистрации:</strong> {new Date(userData.created_at).toLocaleString()}</p>
           <div className="account-actions">
-            <button onClick={handleCreateCourse} className="account-button">
-              Создать курс
-            </button>
-            <button onClick={handleLogout} className="account-button logout">
-              Выйти
+          {userData && userData.role && userData.role.toLowerCase() === "admin" && (
+  <button onClick={handleCreateCourse} className="account-button">
+    Создать курс
+  </button>
+)}
+
+            <button onClick={handleComeBackHome} className="comeBack-button">
+              Назад на главную
             </button>
           </div>
         </div>
