@@ -49,7 +49,6 @@ const AccountPage = () => {
     Создать курс
   </button>
 )}
-
             <button onClick={handleComeBackHome} className="comeBack-button">
               Назад на главную
             </button>
