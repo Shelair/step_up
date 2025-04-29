@@ -159,6 +159,39 @@ def delete_page(id):
         conn.rollback()  # Откатываем изменения в случае ошибки
         return jsonify({'error': 'Ошибка при удалении страницы'}), 500
 
+# ✏️ ОБНОВЛЕНИЕ КУРСА
+@app.route('/api/courses/<int:id>', methods=['PUT'])
+def update_course(id):
+    data = request.get_json()
+    title = data.get('title')
+    description = data.get('description')
+    image_url = data.get('image_url')
+
+    try:
+        cur.execute(
+            "UPDATE courses SET title = %s, description = %s, image_url = %s WHERE id = %s",
+            (title, description, image_url, id)
+        )
+        conn.commit()
+        return jsonify({"message": "Курс успешно обновлен"}), 200
+    except Exception as e:
+        conn.rollback()
+        return jsonify({"error": f"Ошибка обновления курса: {str(e)}"}), 500
+
+@app.route('/api/courses', methods=['GET'])
+def get_courses():
+    try:
+        cur.execute("SELECT id, title, description, image_url FROM courses")
+        courses = cur.fetchall()
+        result = [
+            {"id": row[0], "title": row[1], "description": row[2], "image_url": row[3]}
+            for row in courses
+        ]
+        return jsonify(result)
+    except Exception as e:
+        print(f"Ошибка получения курсов: {e}")
+        return jsonify({"error": "Ошибка сервера"}), 500
+
 
 # 🔄 ЗАПУСК
 if __name__ == "__main__":

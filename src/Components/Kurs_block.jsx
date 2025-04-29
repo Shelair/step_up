@@ -6,7 +6,7 @@ export default function Kurs_block({ title, description, image, lang }) {
 
   const handleClick = () => {
     navigate(`/courses/${lang.toLowerCase()}`);
-  };
+  };  
 
   return (
     <div className="course-block">
@@ -16,7 +16,7 @@ export default function Kurs_block({ title, description, image, lang }) {
         <button onClick={handleClick}>Перейти к курсу</button>
       </div>
       <div className="course-image">
-        <img src={image} alt={title} />
+        <img src={image.startsWith('http') ? image : `/${image}`} alt={title} />
       </div>
     </div>
   );
