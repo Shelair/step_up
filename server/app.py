@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.secret_key = "your_secret_key"
 CORS(app, supports_credentials=True)
 
-# Подключение к PostgreSQL
+
 conn = psycopg2.connect(
     dbname="courses_db",
     user="postgres",
@@ -17,7 +17,7 @@ conn = psycopg2.connect(
 )
 cur = conn.cursor()
 
-# 🔐 РЕГИСТРАЦИЯ
+
 @app.route("/register", methods=["POST"])
 def register():
     data = request.get_json()
@@ -40,7 +40,7 @@ def register():
         conn.rollback()
         return jsonify({"message": f"Ошибка регистрации: {str(e)}"}), 500
 
-# 🔓 ЛОГИН
+
 @app.route("/login", methods=["POST"])
 def login():
     data = request.get_json()
@@ -55,7 +55,7 @@ def login():
         return jsonify({"message": "Успешный вход"})
     return jsonify({"message": "Неверный email или пароль"}), 401
 
-# 👤 ДАННЫЕ УЧЕТНОЙ ЗАПИСИ
+
 @app.route('/api/account', methods=["GET"])
 def get_account_data():
     email = session.get('user')
@@ -76,7 +76,7 @@ def get_account_data():
     except Exception as e:
         return jsonify({"message": f"Ошибка: {str(e)}"}), 500
 
-# 🔍 ПРОВЕРКА КУРСА ПО НАЗВАНИЮ
+
 @app.route('/api/courses/check', methods=['GET'])
 def check_course():
     title = request.args.get('title')
@@ -93,7 +93,7 @@ def check_course():
     except Exception as e:
         return jsonify({"error": f"Ошибка проверки: {str(e)}"}), 500
 
-# ➕ ДОБАВЛЕНИЕ НОВОГО КУРСА
+
 @app.route('/api/courses', methods=['POST'])
 def create_course():
     data = request.get_json()
@@ -159,7 +159,7 @@ def delete_page(id):
         conn.rollback()  # Откатываем изменения в случае ошибки
         return jsonify({'error': 'Ошибка при удалении страницы'}), 500
 
-# ✏️ ОБНОВЛЕНИЕ КУРСА
+
 @app.route('/api/courses/<int:id>', methods=['PUT'])
 def update_course(id):
     data = request.get_json()
@@ -192,8 +192,33 @@ def get_courses():
         print(f"Ошибка получения курсов: {e}")
         return jsonify({"error": "Ошибка сервера"}), 500
 
+@app.route('/api/courses/<int:course_id>/first_page', methods=['GET'])
+def get_first_page(course_id):
+    try:
+        cur.execute("""
+            SELECT id, content, created_at, position
+            FROM course_pages
+            WHERE course_id = %s
+            ORDER BY position ASC
+            LIMIT 1
+        """, (course_id,))
+        page = cur.fetchone()
 
-# 🔄 ЗАПУСК
+        if page:
+            return jsonify({
+                "id": page[0],
+                "content": page[1],
+                "created_at": page[2],
+                "position": page[3]
+            })
+        else:
+            return jsonify({"message": "Страницы не найдены"}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+
+
 if __name__ == "__main__":
     app.run(debug=True)
 

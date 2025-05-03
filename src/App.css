@@ -76,7 +76,6 @@
 }
 
 /* основа домашней страницы */
-
 .main-container {
   padding: 2rem;
   background-color: #f9f9f9;
@@ -90,33 +89,34 @@
 
 .courses-wrapper {
   display: flex;
-  flex-direction: row; 
+  flex-direction: row;
   gap: 2rem;
-  justify-content: center;
-  flex-wrap: nowrap; 
-  overflow-x: auto; 
+  overflow-x: auto;
   padding-bottom: 1rem;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
 }
 
 .course-block {
+  flex: 0 0 auto; /* не даём сжиматься и сохраняем фиксированную ширину */
+  width: 600px;
+  height: 180px;
   display: flex;
   flex-direction: row;
   align-items: center;
-  min-width: 600px;
-  max-width: 600px;
-  height: 180px; 
   background-color: #9795849f;
   border-radius: 16px;
   padding: 1.5rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  flex-shrink: 0;
-  overflow: hidden; 
+  overflow: hidden;
+  scroll-snap-align: start;
 }
 
 .course-text {
   flex: 1;
   padding-right: 1rem;
   overflow: hidden;
+  min-width: 0;
 }
 
 .course-text h2 {
@@ -143,6 +143,11 @@
   border-radius: 8px;
   cursor: pointer;
   white-space: nowrap;
+  transition: background-color 0.2s ease;
+}
+
+.course-text button:hover {
+  background-color: #6d6259;
 }
 
 .course-image img {
@@ -150,9 +155,9 @@
   height: 150px;
   object-fit: cover;
   border-radius: 12px;
+  background-color: #ccc;
+  display: block;
 }
-
-/* подвал домашней страницы */
 
 .footer {
   display: flex;
@@ -591,4 +596,63 @@
   padding: 5px 10px;
   border-radius: 6px;
   cursor: pointer;
+}
+
+
+.back-button {
+  margin-top: 2rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+  background-color: #1565c0;
+}
+
+.terms-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: Arial, sans-serif;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.terms-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.terms-subtitle {
+  font-size: 1.4rem;
+  margin-top: 1.5rem;
+  color: #222;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 0.5rem;
+}
+
+.terms-text {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  color: #444;
+  line-height: 1.6;
+}
+
+.terms-list {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  color: #555;
+}
+
+.terms-list li {
+  margin-bottom: 0.75rem;
 }

@@ -9,7 +9,7 @@ import Terms from './Pages/terms';
 import AccountPage from './Pages/Account_page'; // исправили название
 import AuthPage from './Pages/AuthPage';
 import ConstructorPage from './Pages/ConstructorPage';
-import CoursePage from "./Pages/CoursePage";
+import CoursePage from './Pages/CoursePage';
 
 function App() {
   return (
@@ -23,7 +23,7 @@ function App() {
       <Route path="/privacy" element={<Privacy />} />
       <Route path="/account" element={<AccountPage />} />
       <Route path="/constructor" element={<ConstructorPage />} /> 
-      <Route path="/course/:courseId" element={<CoursePage />} />
+      <Route path="/courses/:courseId" element={<CoursePage />} />
     </Routes>
   );
 }

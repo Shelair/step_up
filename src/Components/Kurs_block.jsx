@@ -1,12 +1,17 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function Kurs_block({ title, description, image, lang }) {
+export default function Kurs_block({ id, title, description, image }) {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/courses/${lang.toLowerCase()}`);
-  };  
+    navigate(`/courses/6`);
+  };
+
+  const getImageSrc = () => {
+    if (!image) return "/default.jpg";
+    return image.startsWith("http") ? image : `/${image}`;
+  };
 
   return (
     <div className="course-block">
@@ -16,7 +21,7 @@ export default function Kurs_block({ title, description, image, lang }) {
         <button onClick={handleClick}>Перейти к курсу</button>
       </div>
       <div className="course-image">
-        <img src={image.startsWith('http') ? image : `/${image}`} alt={title} />
+        <img src={getImageSrc()} alt={title || "Курс"} />
       </div>
     </div>
   );
