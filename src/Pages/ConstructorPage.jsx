@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function CourseConstructor() {
   const [title, setTitle] = useState('');
@@ -11,6 +12,7 @@ export default function CourseConstructor() {
   const [showTextEditor, setShowTextEditor] = useState(false);
   const [pageText, setPageText] = useState('');
   const [saveLoading, setSaveLoading] = useState(false);
+
 
   const fetchCoursePages = async (courseId) => {
     const res = await fetch(`http://localhost:5000/api/pages/${courseId}`);
@@ -81,8 +83,15 @@ export default function CourseConstructor() {
     }
   };
 
+  const navigate = useNavigate();
   return (
     <div className="course-container">
+    <button
+      onClick={() => navigate('/home')}
+      className="back-button"
+    >
+      Назад
+    </button>
       <h2 className="course-heading">Конструктор курсов</h2>
 
       {/* Блок ввода курса */}

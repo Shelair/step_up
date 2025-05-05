@@ -5,12 +5,20 @@ import axios from "axios";
 export default function Main() {
   const [courses, setCourses] = useState([]);
 
+  // ID, которые считаем допустимыми
+  const validIds = [6, 7, 8, 9, 10];
+
   useEffect(() => {
-    // Фетчим курсы из бэкенда
     const fetchCourses = async () => {
       try {
         const response = await axios.get('http://localhost:5000/api/courses');
-        setCourses(response.data);
+        // Фильтруем только те курсы, чей id в списке и у них есть данные
+        const filtered = response.data.filter(course =>
+          validIds.includes(course.id) &&
+          course.title &&
+          course.description
+        );
+        setCourses(filtered);
       } catch (error) {
         console.error("Ошибка загрузки курсов:", error);
       }
@@ -26,10 +34,10 @@ export default function Main() {
         {courses.map(course => (
           <Kurs_block
             key={course.id}
+            id={course.id}
             title={course.title}
             description={course.description}
             image={course.image_url}
-            lang={course.title} // Можно использовать title для пути, если нет отдельного поля lang
           />
         ))}
       </div>

@@ -5,11 +5,11 @@ export default function Kurs_block({ id, title, description, image }) {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/courses/6`);
+    navigate(`/courses/${id}`);
   };
 
   const getImageSrc = () => {
-    if (!image) return "/default.jpg";
+    if (!image) return "/default.jpg"; // Фолбэк, если нет изображения
     return image.startsWith("http") ? image : `/${image}`;
   };
 

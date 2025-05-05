@@ -140,26 +140,6 @@ def get_pages(course_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route('/api/pages/<int:id>', methods=['DELETE'])
-def delete_page(id):
-    try:
-        # Ищем страницу по ID
-        cur.execute("SELECT id FROM course_pages WHERE id = %s", (id,))
-        page = cur.fetchone()
-
-        if not page:
-            return jsonify({'error': 'Страница не найдена'}), 404
-        
-        # Удаляем страницу
-        cur.execute("DELETE FROM course_pages WHERE id = %s", (id,))
-        conn.commit()
-        return jsonify({'message': 'Страница удалена'}), 200
-    except Exception as e:
-        print(f'Ошибка при удалении страницы: {e}')
-        conn.rollback()  # Откатываем изменения в случае ошибки
-        return jsonify({'error': 'Ошибка при удалении страницы'}), 500
-
-
 @app.route('/api/courses/<int:id>', methods=['PUT'])
 def update_course(id):
     data = request.get_json()
@@ -215,6 +195,53 @@ def get_first_page(course_id):
             return jsonify({"message": "Страницы не найдены"}), 404
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+@app.route('/api/courses/<int:course_id>', methods=['GET'])
+def get_course(course_id):
+    try:
+        cur.execute("SELECT id, title, description, image_url FROM courses WHERE id = %s", (course_id,))
+        course = cur.fetchone()
+        if course:
+            return jsonify({
+                "id": course[0],
+                "title": course[1],
+                "description": course[2],
+                "image_url": course[3]
+            })
+        else:
+            return jsonify({"error": "Курс не найден"}), 404
+    except Exception as e:
+        return jsonify({"error": f"Ошибка при получении курса: {str(e)}"}), 500
+
+
+@app.route('/api/pages/<int:page_id>', methods=['DELETE'])
+def delete_page(page_id):
+    try:
+        # Получим данные об удаляемой странице
+        cur.execute("SELECT course_id, position FROM course_pages WHERE id = %s", (page_id,))
+        page = cur.fetchone()
+
+        if not page:
+            return jsonify({"error": "Страница не найдена"}), 404
+
+        course_id, deleted_position = page
+
+        # Удалим страницу
+        cur.execute("DELETE FROM course_pages WHERE id = %s", (page_id,))
+
+        # Обновим позиции остальных страниц, которые шли после неё
+        cur.execute("""
+            UPDATE course_pages
+            SET position = position - 1
+            WHERE course_id = %s AND position > %s
+        """, (course_id, deleted_position))
+
+        conn.commit()
+        return jsonify({"message": "Страница удалена"}), 200
+    except Exception as e:
+        conn.rollback()
+        return jsonify({"error": f"Ошибка при удалении: {str(e)}"}), 500
 
 
 

@@ -11,6 +11,9 @@ import AuthPage from './Pages/AuthPage';
 import ConstructorPage from './Pages/ConstructorPage';
 import CoursePage from './Pages/CoursePage';
 
+
+
+
 function App() {
   return (
     <Routes>
